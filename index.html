@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="//cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/44123b8bf0.js" crossorigin="anonymous"></script>
+    <script src="./script.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <title>CRUD</title>
+</head>
+<body>
+    <div class="d-flex justify-content-center bg-dark text-white headerPrincipal">
+        <h1>CRUD em PHP</h1>
+    </div>
+    <div id="loader" class="d-none">
+        <svg style="
+        position: absolute;
+        top: 20%;
+        left: 50%;
+            transform: translate(-50%, -50%) matrix(1, 0, 0, 1, 0, 0);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 187.3 93.7" height="300px" width="400px">
+        <path d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 				c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" stroke-miterlimit="10" stroke-linejoin="round" stroke-linecap="round" stroke-width="4" fill="none" id="outline" stroke="#4E4FEB"></path>
+        <path d="M93.9,46.4c9.3,9.5,13.8,17.9,23.5,17.9s17.5-7.8,17.5-17.5s-7.8-17.6-17.5-17.5c-9.7,0.1-13.3,7.2-22.1,17.1 				c-8.9,8.8-15.7,17.9-25.4,17.9s-17.5-7.8-17.5-17.5s7.8-17.5,17.5-17.5S86.2,38.6,93.9,46.4z" stroke-miterlimit="10" stroke-linejoin="round" stroke-linecap="round" stroke-width="4" stroke="#4E4FEB" fill="none" opacity="0.05" id="outline-bg"></path>
+        </svg>  
+    </div>
+    <div id="alert_success" class="success d-none">
+        <div class="success__icon">
+        <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="m12 1c-6.075 0-11 4.925-11 11s4.925 11 11 11 11-4.925 11-11-4.925-11-11-11zm4.768 9.14c.0878-.1004.1546-.21726.1966-.34383.0419-.12657.0581-.26026.0477-.39319-.0105-.13293-.0475-.26242-.1087-.38085-.0613-.11844-.1456-.22342-.2481-.30879-.1024-.08536-.2209-.14938-.3484-.18828s-.2616-.0519-.3942-.03823c-.1327.01366-.2612.05372-.3782.1178-.1169.06409-.2198.15091-.3027.25537l-4.3 5.159-2.225-2.226c-.1886-.1822-.4412-.283-.7034-.2807s-.51301.1075-.69842.2929-.29058.4362-.29285.6984c-.00228.2622.09851.5148.28067.7034l3 3c.0983.0982.2159.1748.3454.2251.1295.0502.2681.0729.4069.0665.1387-.0063.2747-.0414.3991-.1032.1244-.0617.2347-.1487.3236-.2554z" fill="#393a37" fill-rule="evenodd"></path></svg>
+        </div>
+        <div id="alert_succ_mensagem" class="success__title" >Enviado</div>
+    </div>
+    
+    <div id="alert_error" class="error d-none">
+        <div class="error__icon">
+            <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m13 13h-2v-6h2zm0 4h-2v-2h2zm-1-15c-1.3132 0-2.61358.25866-3.82683.7612-1.21326.50255-2.31565 1.23915-3.24424 2.16773-1.87536 1.87537-2.92893 4.41891-2.92893 7.07107 0 2.6522 1.05357 5.1957 2.92893 7.0711.92859.9286 2.03098 1.6651 3.24424 2.1677 1.21325.5025 2.51363.7612 3.82683.7612 2.6522 0 5.1957-1.0536 7.0711-2.9289 1.8753-1.8754 2.9289-4.4189 2.9289-7.0711 0-1.3132-.2587-2.61358-.7612-3.82683-.5026-1.21326-1.2391-2.31565-2.1677-3.24424-.9286-.92858-2.031-1.66518-3.2443-2.16773-1.2132-.50254-2.5136-.7612-3.8268-.7612z" fill="#393a37"></path></svg>
+        </div>
+        <div id="alert_err_mensagem" class="error__title">Erro ao enviar</div>
+    </div>
+    <div class="row justify-content-center align-items-end g-2 corpo">
+        
+        <div class="col-6 tabela-principal">
+            <div class="table-responsive rounded">
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">ID</th>
+                            <th scope="col" class="text-center">Nome Completo</th>
+                            <th scope="col" class="text-center">CPF</th>
+                            <th scope="col" class="text-center">Celular</th>
+                            <th scope="col" class="text-center">Cidade</th>
+                            <th scope="col" class="text-center">Opçoes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpo-tabela">
+                        
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        <div class="d-flex justify-content-center bg-dark text-white">
+            <div class="d-grid gap-2 m-3">
+              <button type="button" data-bs-toggle="modal" data-bs-target="#modalCadastro" class="btn btn-primary" onclick="limparInputs()">Criar Cadastro</button>
+            </div>
+    
+        </div> 
+    </div>
+    
+
+    <!-- Button trigger modal -->
+    
+    
+    <!-- Modal -->
+    <div class="modal fade" id="modalCadastro" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title " id="modalTitleId">Cadastro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="hd_id">
+                    <div class="row">
+                        <div class="mb-0 col-4">
+                            <label for="" class="form-label">Nome Completo</label>
+                            <input type="text" class="form-control"  id="idCadNome">
+                        </div>
+                        <div class="mb-0 col-4">
+                            <label for="" class="form-label">CPF</label>
+                            <input type="text" class="form-control onlyNum"  id="idCadCpf" maxlength="14">
+                        </div>
+                        <div class="mb-0 col-4">
+                            <label for="" class="form-label">Celular</label>
+                            <input type="text" class="form-control"  id="idCadCell" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="row justify-content-center align-items-center">
+                        <div class="mb-0 col-6">
+                            <div class="mb-3">
+                                <label for="" class="form-label">City</label>
+                                <select class="form-select form-select-sm modal-input" id="idCadCid">
+                                    <option selected value=''> -- Selecione --</option>
+                                    <option value='São Paulo, SP'>São Paulo, SP</option>
+                                    <option value='Campinas, SP'>Campinas, SP</option>
+                                    <option value='Santos, SP'>Santos, SP</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="enviarCadastro()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+    <!-- Modal deletar -->
+    <div class="modal fade" id="modalDeletar" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h5 class="modal-title " id="modalTitleId">Deseja realmente deletar o cadastro??</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="id_deletar" value="">
+                    <div class="text-center">
+                        <p class="text-warning">Você solicitou a exclusão de um cadastro. Tem certeza de que deseja prosseguir com essa ação?</p>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="apagarCadastro()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+</body>
+</html>
